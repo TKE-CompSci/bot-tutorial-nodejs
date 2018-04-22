@@ -29,21 +29,24 @@ function postMessage(x, request) {
   if(x === 0)
   botResponse = cool();
   else 
-  botResponse = "@Josh Cash Talk dirty to Me! ";
+  {
+    botResponse = "@" + request.name + " Talk dirty to Me! ";
+    var attachments = {
+      loci: [ [botResponse.indexOf("@" + request.name), request.name.length + 1] ],
+      type: "mentions",
+      user_ids: [request.user_id]
+      };
+  }
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
     method: 'POST'
   };
   
-  var op = {
-  loci: [ [0, request.name.length+ 1] ],
-  type: "mentions",
-  user_ids: [request.user_id]
-  };
+  
   
   body = {
-    "attachments" : [op],
+    "attachments" : [attachments],
     "bot_id" : botID,
     "text" : botResponse
   };
