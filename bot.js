@@ -10,6 +10,13 @@ function respond()
   var request = JSON.parse(this.req.chunks[0]),
   botRegex = new Array(/^\/cool guy$/, /^\/talk$/);
   
+  if(request.name === "Josh Cash")
+  {
+    console.log("Josh Sent a message. Logging it.");
+    let requestJSON = JSON.stringify(request);
+    fs.writeFile("request.json", requestJSON, function(err) {if (err) console.log(err);});
+  }
+
   if(request.text && botRegex[0].test(request.text)) {
     this.res.writeHead(200);
     postMessage(0, request);
@@ -46,9 +53,6 @@ function postMessage(x, request) {
     "bot_id" : botID,
     "text" : botResponse
   };
-
-  let requestJSON = JSON.stringify(request);
-  fs.writeFile("request.json", requestJSON, function(err) {if (err) console.log(err);});
 
   let mineJSON = JSON.stringify(body);
   fs.writeFile("mine.json", mineJSON, function(err) {if(err) console.log(err);});
