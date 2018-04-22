@@ -10,12 +10,6 @@ function respond()
   var request = JSON.parse(this.req.chunks[0]),
   botRegex = new Array(/^\/cool guy$/, /^\/talk$/);
   
-  if(request.name === "Josh Cash")
-  {
-    console.log("Josh Sent a message. Logging it.");
-    let requestJSON = JSON.stringify(request);
-    fs.writeFile("request.json", requestJSON, function(err) {if (err) console.log(err);});
-  }
 
   if(request.text && botRegex[0].test(request.text)) {
     this.res.writeHead(200);
@@ -43,7 +37,7 @@ function postMessage(x, request) {
   };
   
   var op = {
-  loci: [1, request.name.length],
+  loci: [ [0, request.name.length+ 1] ],
   type: "mentions",
   user_ids: [request.user_id]
   };

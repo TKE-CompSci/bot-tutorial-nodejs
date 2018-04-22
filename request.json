@@ -1,1 +1,27 @@
-{"attachments":[{"loci":[[0,14]],"type":"mentions","user_ids":["35343292"]}],"avatar_url":"https://i.groupme.com/720x1280.png.23efcba31b5e421f8accafcca4b99b73","created_at":1524422187,"group_id":"39953488","id":"152442218789551158","name":"Josh Cash","sender_id":"35587100","sender_type":"user","source_guid":"eb15497d-774c-4ea4-ba28-5c483daf0277","system":false,"text":"@Dylan Hampton ","user_id":"35587100"}
+{
+    "attachments": [
+        {
+            "loci": [
+                [
+                    0,
+                    14
+                ]
+            ],
+            "type": "mentions",
+            "user_ids": [
+                "35343292"
+            ]
+        }
+    ],
+    "avatar_url": "https://i.groupme.com/720x1280.png.23efcba31b5e421f8accafcca4b99b73",
+    "created_at": 1524422187,
+    "group_id": "39953488",
+    "id": "152442218789551158",
+    "name": "Josh Cash",
+    "sender_id": "35587100",
+    "sender_type": "user",
+    "source_guid": "eb15497d-774c-4ea4-ba28-5c483daf0277",
+    "system": false,
+    "text": "@Dylan Hampton ",
+    "user_id": "35587100"
+}
