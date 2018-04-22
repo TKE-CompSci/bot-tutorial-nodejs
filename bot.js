@@ -13,23 +13,23 @@ function respond()
 
   if(request.text && botRegex[0].test(request.text)) {
     this.res.writeHead(200);
-    postMessage(0);
+    postMessage(0, request);
     this.res.end();
   }
   else if(request.text && botRegex[1].test(request.text)) {
-    postMessage(1);
+    postMessage(1, request);
     this.res.writeHead(200);
     this.res.end();
   }
 }
 
-function postMessage(x) {
+function postMessage(x, request) {
   var botResponse, options, body, botReq;
 
   if(x === 0)
     botResponse = cool();
   else 
-    botResponse = "Talk dirty to Me!";
+    botResponse = "Talk dirty to Me! @"+ request.name;
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
