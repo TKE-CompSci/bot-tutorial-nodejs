@@ -47,8 +47,8 @@ function postMessage(x, request) {
     "bot_id" : botID,
     "text" : botResponse
   };
-  consol.log("");
-  consol.log("");
+  console.log("");
+  console.log("");
   console.log(body);
   console.log('sending ' + botResponse + ' to ' + botID);
   
