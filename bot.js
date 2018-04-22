@@ -9,15 +9,14 @@ function respond()
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = new Array(/^\/cool guy$/, /^\/talk$/);
   var options = {
+
   loci: "",
   type: "",
   user_id: ""
 };
 
   console.log(request);
-  if(request.attachments[0].user_ids !== undefined) 
-    console.log(request.attachments[0].user_ids);
-  else console.log("Does not exist!");
+  
   if(request.text && botRegex[0].test(request.text)) {
     this.res.writeHead(200);
     postMessage(0, request);
@@ -36,7 +35,7 @@ function postMessage(x, request) {
   if(x === 0)
     botResponse = cool();
   else 
-    botResponse = "Talk dirty to Me! @"+ request.user_id+" @"+request.sender_id;
+    botResponse = "Talk dirty to Me! "+ request.name;
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
