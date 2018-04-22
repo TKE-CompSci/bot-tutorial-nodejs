@@ -9,7 +9,7 @@ function respond()
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = new Array(/^\/cool guy$/, /^\/talk$/);
   
-  console.log(request);
+  console.log(request.name);
 
   if(request.text && botRegex[0].test(request.text)) {
     this.res.writeHead(200);
