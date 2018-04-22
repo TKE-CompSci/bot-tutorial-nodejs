@@ -38,7 +38,7 @@ function postMessage(x, request) {
   
   var op = {
   loci: [1, request.name.length],
-  type: 'mentions',
+  type: "mentions",
   user_id: [request.user_id]
   };
   
