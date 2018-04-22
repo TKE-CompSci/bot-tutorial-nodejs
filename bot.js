@@ -3,10 +3,13 @@ var cool = require('cool-ascii-faces');
 
 var botID = "8691b3fc456f2eb6539908d798";
 
-function respond() {
+function respond() 
+{
   console.log("BOI GOT THAT LOG!");
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = new Array(/^\/cool guy$/, /^\/talk$/);
+  
+  console.log(request);
 
   if(request.text && botRegex[0].test(request.text)) {
     this.res.writeHead(200);
@@ -14,7 +17,6 @@ function respond() {
     this.res.end();
   }
   else if(request.text && botRegex[1].test(request.text)) {
-    console.log("don't care");
     postMessage(1);
     this.res.writeHead(200);
     this.res.end();
@@ -27,7 +29,7 @@ function postMessage(x) {
   if(x === 0)
     botResponse = cool();
   else 
-    botResponse = "Please Work!";
+    botResponse = "Talk dirty to Me!";
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
