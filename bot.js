@@ -9,11 +9,12 @@ function respond() {
 
   if(request.text && botRegex[0].test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postMessage(0);
     this.res.end();
   }
   else if(request.text && botRegex[1].test(request.text)) {
     console.log("don't care");
+    postMessage(1);
     this.res.writeHead(200);
     this.res.end();
   }
