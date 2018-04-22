@@ -1,5 +1,6 @@
 var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
+let fs = require('fs');
 
 var botID = "8691b3fc456f2eb6539908d798";
 
@@ -8,8 +9,6 @@ function respond()
   console.log("BOI GOT THAT LOG!");
   var request = JSON.parse(this.req.chunks[0]),
   botRegex = new Array(/^\/cool guy$/, /^\/talk$/);
-  
-  console.log(request);
   
   if(request.text && botRegex[0].test(request.text)) {
     this.res.writeHead(200);
@@ -47,6 +46,14 @@ function postMessage(x, request) {
     "bot_id" : botID,
     "text" : botResponse
   };
+
+  let requestJSON = JSON.stringify(request);
+  fs.writeFile("request.json", requestJSON, function(err) {if (err) console.log(err);});
+
+  let mineJSON = JSON.stringify(body);
+  fs.writeFile("mine.json", mineJSON, function(err) {if(err) console.log(err);});
+  
+  console.log(request);
   console.log("");
   console.log("");
   console.log(body);
