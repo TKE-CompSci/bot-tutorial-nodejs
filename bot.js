@@ -9,10 +9,9 @@ function respond()
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = new Array(/^\/cool guy$/, /^\/talk$/);
   var options = {
-
-  loci: "",
-  type: "",
-  user_id: ""
+  loci: [1, 8],
+  type: 'mentions',
+  user_id: ['35587100']
 };
 
   console.log(request);
@@ -35,7 +34,7 @@ function postMessage(x, request) {
   if(x === 0)
     botResponse = cool();
   else 
-    botResponse = "Talk dirty to Me! "+ request.name;
+    botResponse = "@Josh Cash Talk dirty to Me! ";
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
@@ -43,6 +42,7 @@ function postMessage(x, request) {
   };
 
   body = {
+    "attachments" : options,
     "bot_id" : botID,
     "text" : botResponse
   };
