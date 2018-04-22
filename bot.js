@@ -53,11 +53,7 @@ function postMessage(x, request) {
 
   let mineJSON = JSON.stringify(body);
   fs.writeFile("mine.json", mineJSON, function(err) {if(err) console.log(err);});
-  
-  console.log(request);
-  console.log("");
-  console.log("");
-  console.log(body);
+
   console.log('sending ' + botResponse + ' to ' + botID);
   
   botReq = HTTPS.request(options, function(res) {
