@@ -3,13 +3,6 @@ var cool = require('cool-ascii-faces');
 let fs = require('fs');
 let schedule = require('node-schedule');
 
-let rule = new schedule.RecurrenceRule();
-rule.minute = 00;
-let rule2 = new schedule.RecurrenceRule();
-rule2.minute = 30;
-let schedules = [schedule.scheduleJob(rule, function(){printTime();}), schedule.scheduleJob(rule2, function(){printTest();})]
-
-
 //ID of the bot from discord
 var botID = "8691b3fc456f2eb6539908d798";
 
@@ -297,6 +290,15 @@ function getDateTime()
   return hour +  ":" + min + ":" + sec + " on " + month + "/" + day + "/" + year;
 
 }
+
+
+let rule = new schedule.RecurrenceRule();
+rule.minute = 00;
+let rule2 = new schedule.RecurrenceRule();
+rule2.minute = 30;
+let schedules = [schedule.scheduleJob(rule, function(){printTime();}), schedule.scheduleJob(rule2, function(){printTest();})]
+
+
 
 //No Idea what this is for.
 exports.respond = respond;
