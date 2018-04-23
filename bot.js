@@ -1,6 +1,14 @@
 var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
 let fs = require('fs');
+let schedule = require('node-schedule');
+
+let rule = new schedule.RecurrenceRule();
+rule.minute = 00;
+let rule2 = new schedule.RecurrenceRule();
+rule2.minute = 30;
+let schedules = [schedule.scheduleJob(rule, function(){printTime();}), schedule.scheduleJob(rule2, function(){printTest();})]
+
 
 //ID of the bot from discord
 var botID = "8691b3fc456f2eb6539908d798";
@@ -163,6 +171,106 @@ function postMessage(x, request)
   botReq.end(JSON.stringify(body));
 }
 
+
+printTime()
+{
+  let botResponse, options, body, botReq, attachments;  
+  
+  
+  console.log("should be sending The Time!");
+  botResponse = "As requested, here is the time: " + getDateTime();
+  body = 
+  {
+    "attachments" : [],
+    "bot_id" : botID,
+    "text" : botResponse
+  };
+
+  //information of where to send it to and type.
+  options = 
+  {
+    hostname: 'api.groupme.com',
+    path: '/v3/bots/post',
+    method: 'POST'
+  };
+
+  //sent the request at the location set in options.
+  botReq = 
+    HTTPS.request(options, function(res) 
+    {
+      //check to see if the request was accepted.
+      if(res.statusCode == 202) {/* went through*/ } 
+      else 
+      {
+        //was rejected with the following code.
+        console.log('rejecting bad status code ' + res.statusCode);
+      }
+    });
+  
+  //error handling for the request.
+  botReq.on('error', function(err) 
+  {
+    console.log('error posting message '  + JSON.stringify(err));
+  });
+  // error handling for timeout on request.
+  botReq.on('timeout', function(err) 
+  {
+    console.log('timeout posting message '  + JSON.stringify(err));
+  });
+  //close connection with message.
+  botReq.end(JSON.stringify(body));
+}
+
+printTest()
+{
+  let botResponse, options, body, botReq, attachments;  
+
+  console.log("should be sending a message!");
+  botResponse = "Andy for Pres!";
+  body = 
+  {
+    "attachments" : [],
+    "bot_id" : botID,
+    "text" : botResponse
+  };
+
+  //information of where to send it to and type.
+  options = 
+  {
+    hostname: 'api.groupme.com',
+    path: '/v3/bots/post',
+    method: 'POST'
+  };
+
+  //sent the request at the location set in options.
+  botReq = 
+    HTTPS.request(options, function(res) 
+    {
+      //check to see if the request was accepted.
+      if(res.statusCode == 202) {/* went through*/ } 
+      else 
+      {
+        //was rejected with the following code.
+        console.log('rejecting bad status code ' + res.statusCode);
+      }
+    });
+  
+  //error handling for the request.
+  botReq.on('error', function(err) 
+  {
+    console.log('error posting message '  + JSON.stringify(err));
+  });
+  // error handling for timeout on request.
+  botReq.on('timeout', function(err) 
+  {
+    console.log('timeout posting message '  + JSON.stringify(err));
+  });
+  //close connection with message.
+  botReq.end(JSON.stringify(body));
+}
+
+
+
 //time function.
 function getDateTime() 
 {
@@ -187,7 +295,7 @@ function getDateTime()
   day = (day < 10 ? "0" : "") + day;
 
   return hour +  ":" + min + ":" + sec + " on " + month + "/" + day + "/" + year;
-  
+
 }
 
 //No Idea what this is for.
