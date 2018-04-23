@@ -12,7 +12,7 @@ function respond()
   var request = JSON.parse(this.req.chunks[0]),
 
   //the array of regex commands to be checked for.
-  botRegex = new Array(/^\/cool guy$/, /^\/talk$/);
+  botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /^@BOT/i);
   
   //check for a message then check to see if it matches the first regex
   if(request.text && botRegex[0].test(request.text)) 
@@ -34,6 +34,13 @@ function respond()
     //finishes sending the request 
     this.res.end();
   }
+  //attempting to check for being tagged.
+  else if(request.text && botRegex[2].test(request.text))
+  {
+    this.res.writeHead(200);
+    postMessage(2, request);
+    this.res.end();
+  }
 }
 
 //sets the appropriate message for the response given.
@@ -41,48 +48,77 @@ function postMessage(x, request)
 {
   // variables for holding information.
   var botResponse, options, body, botReq;
+  let attachments;
   //if it was the first regex get that cool face.
   if(x === 0)
+  {
     botResponse = cool();
+    attachments = {};
+  }
   //then must be the second regex response.
-  else 
+  else if(x === 1)
   {
     //set the response to mentioning who made command and the following message.
     botResponse = "@" + request.name + " Talk dirty to Me! ";
     // the structure for mentioning people.
-    var attachments = {
+    attachments = 
+    {
       loci: [ [botResponse.indexOf("@" + request.name), request.name.length + 1] ],
       type: "mentions",
       user_ids: [request.user_id]
+    };
+  }
+  else if(x === 2)
+  {
+    let botTagRegex  = new Array(/^\@bot who am i/i, /^\@bot who are you/i, /^\@bot time/i);
+    if(botTagRegex[0].test(request.text))
+    {
+      botResponse = "@" + request.name + ", you are a human";
+      attachments = 
+      {
+        loci: [ [botResponse.indexOf("@" + request.name), request.name.length + 1] ],
+        type: "mentions",
+        user_ids: [request.user_id]
       };
+    }
+    else if(botTagRegex[1].test(request.text))
+    {
+      botResponse = "@" + request.name + ", I am not a bot!";
+      attachments = 
+      {
+        loci: [ [botResponse.indexOf("@" + request.name), request.name.length + 1] ],
+        type: "mentions",
+        user_ids: [request.user_id]
+      };
+    }
+    else if(botTagRegex[2].test(request.text))
+    {
+      botResponse = "@" + request.name + " the time is : " + getDateTime();
+      attachments = 
+      {
+        loci: [ [botResponse.indexOf("@" + request.name), request.name.length + 1] ],
+        type: "mentions",
+        user_ids: [request.user_id]
+      };
+    }
   }
 
+
   //information of where to send it to and type.
-  options = {
+  options = 
+  {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
     method: 'POST'
   };
   
-  // if it was the second type then add the mentioning.
-  if(x === 1)
+  //set up the body of the message.
+  body = 
   {
-    
-    body = {
-      "attachments" : [attachments],
-      "bot_id" : botID,
-      "text" : botResponse
-    };
-  }
-
-  // else set up without mentioning.
-  else
-  {
-    body = {
-      "bot_id" : botID,
-      "text" : botResponse
-    }
-  }
+    "attachments" : [attachments],
+    "bot_id" : botID,
+    "text" : botResponse
+  };
 
   //DEBUG what message was sent.
   console.log('sending ' + botResponse + ' to ' + botID);
@@ -112,6 +148,33 @@ function postMessage(x, request)
   });
   //close connection with message.
   botReq.end(JSON.stringify(body));
+}
+
+//time function.
+function getDateTime() 
+{
+
+  var date = new Date();
+
+  var hour = date.getHours();
+  hour = (hour < 10 ? "0" : "") + hour;
+
+  var min  = date.getMinutes();
+  min = (min < 10 ? "0" : "") + min;
+
+  var sec  = date.getSeconds();
+  sec = (sec < 10 ? "0" : "") + sec;
+
+  var year = date.getFullYear();
+
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+
+  var day  = date.getDate();
+  day = (day < 10 ? "0" : "") + day;
+
+  return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
 }
 
 //No Idea what this is for.
