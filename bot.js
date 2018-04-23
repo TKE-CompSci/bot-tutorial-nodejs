@@ -53,7 +53,7 @@ function postMessage(x, request)
   if(x === 0)
   {
     botResponse = cool();
-    attachments = {};
+    attachments = null;
   }
   //then must be the second regex response.
   else if(x === 1)
@@ -101,6 +101,16 @@ function postMessage(x, request)
         user_ids: [request.user_id]
       };
     }
+    else
+    {
+      botResponse = "@" + request.name + " what do you need?";
+      attachments =
+      {
+        loci: [ [botResponse.indexOf("@"+request.name, request.name.length + 1)] ],
+        type: "mentions",
+        user_ids: [request.user_id]
+      }
+    }
   }
 
 
@@ -115,10 +125,13 @@ function postMessage(x, request)
   //set up the body of the message.
   body = 
   {
-    "attachments" : [attachments],
+    "attachments" : attachments !== null ? [attachments] : [],
     "bot_id" : botID,
     "text" : botResponse
   };
+
+  //Debug what is being sent back
+  console.log(body);
 
   //DEBUG what message was sent.
   console.log('sending ' + botResponse + ' to ' + botID);
@@ -173,8 +186,8 @@ function getDateTime()
   var day  = date.getDate();
   day = (day < 10 ? "0" : "") + day;
 
-  return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
-
+  return hour +  ":" + min + ":" + sec + " on " + month + "/" + day + "/" + year;
+  
 }
 
 //No Idea what this is for.
