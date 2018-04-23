@@ -165,7 +165,7 @@ function postMessage(x, request)
 }
 
 
-printTime()
+function printTime()
 {
   let botResponse, options, body, botReq, attachments;  
   
@@ -214,7 +214,7 @@ printTime()
   botReq.end(JSON.stringify(body));
 }
 
-printTest()
+function printTest()
 {
   let botResponse, options, body, botReq, attachments;  
 
