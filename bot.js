@@ -296,7 +296,7 @@ let rule = new schedule.RecurrenceRule();
 rule.minute = 00;
 let rule2 = new schedule.RecurrenceRule();
 rule2.minute = 30;
-let schedules = [schedule.scheduleJob(rule, function(){printTime();}), schedule.scheduleJob(rule2, function(){printTest();})]
+//let schedules = [schedule.scheduleJob(rule, function(){printTime();}), schedule.scheduleJob(rule2, function(){printTest();})]
 
 
 
