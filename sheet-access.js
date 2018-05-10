@@ -8,8 +8,9 @@ var creds = require('./client_secret.json');
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
 var doc = new GoogleSpreadsheet(spreadsheet_id);
 
-var getSheet = function(message)
+var getSheet = function()
 {
+  let message;
   doc.useServiceAccountAuth(creds, function (err) {
     // Get all of the rows from the spreadsheet.
     doc.getCells(1, function (err, cells) {
@@ -20,6 +21,7 @@ var getSheet = function(message)
       }
     });
   })
+  return message;
 }
 
 module.exports = getSheet;

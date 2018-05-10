@@ -55,7 +55,7 @@ function postMessage(x, request)
   //if it was the first regex get that cool face.
   if(x === 0)
   {
-    getData(botResponse);
+    botResponse = getData();
     attachments = null;
   }
   //then must be the second regex response.
