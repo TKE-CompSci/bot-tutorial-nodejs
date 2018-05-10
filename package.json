@@ -9,6 +9,7 @@
   "dependencies": {
     "cool-ascii-faces": "^1.3.4",
     "director": "^1.2.8",
+    "google-spreadsheet": "^2.0.4",
     "node-schedule": "^1.3.0"
   },
   "engines": {
