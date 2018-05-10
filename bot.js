@@ -29,8 +29,6 @@ function respond()
   //check for a message then check to se if it matches the second regex
   else if(request.text && botRegex[1].test(request.text))
   {
-    console.log("I am goin to show sheet stuff below... Hopefully.");
-    sheetAccess.foo();
     //writes a http status code of 200, which means the request has succeeded.
     this.res.writeHead(200);
     //calls the function to get the message
