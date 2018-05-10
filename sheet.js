@@ -8,15 +8,13 @@ function foo()
 {
     async.series([
         function setAuth(step) {
-          // see notes below for authentication instructions!
-          var creds = require('./google-generated-creds.json');
           // OR, if you cannot save the file locally (like on heroku)
           var creds_json = {
             client_email: 'yourserviceaccountemailhere@google.com',
             private_key: 'AIzaSyDVgt31gPmG2Xf_uABKpQ25idII9n_tIsY'
           }
        
-          doc.useServiceAccountAuth(creds, step);
+          doc.useServiceAccountAuth(creds_json, step);
         },
         function getInfoAndWorksheets(step) {
           doc.getInfo(function(err, info) {
