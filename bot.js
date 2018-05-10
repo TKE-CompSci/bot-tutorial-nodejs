@@ -2,7 +2,7 @@ var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
 let fs = require('fs');
 let schedule = require('node-schedule');
-let sheetAccess = require('./sheet-access');
+let getData = require('./sheet-access');
 
 //ID of the bot from discord
 var botID = "8691b3fc456f2eb6539908d798";
@@ -55,7 +55,7 @@ function postMessage(x, request)
   //if it was the first regex get that cool face.
   if(x === 0)
   {
-    sheetAccess.getSheet(botResponse);
+    getData(botResponse);
     attachments = null;
   }
   //then must be the second regex response.
