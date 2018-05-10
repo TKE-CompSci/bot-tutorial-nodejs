@@ -2,6 +2,7 @@ var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
 let fs = require('fs');
 let schedule = require('node-schedule');
+let sheetAccess = require('./sheet');
 
 //ID of the bot from discord
 var botID = "8691b3fc456f2eb6539908d798";
@@ -28,6 +29,7 @@ function respond()
   //check for a message then check to se if it matches the second regex
   else if(request.text && botRegex[1].test(request.text))
   {
+    console.log("I am goin to show sheet stuff below... Hopefully.");
     //writes a http status code of 200, which means the request has succeeded.
     this.res.writeHead(200);
     //calls the function to get the message
