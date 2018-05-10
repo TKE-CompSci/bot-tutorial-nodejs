@@ -8,16 +8,16 @@ var creds = require('./client_secret.json');
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
 var doc = new GoogleSpreadsheet(spreadsheet_id);
 
-// Authenticate with the Google Spreadsheets API.
-doc.useServiceAccountAuth(creds, function (err) {
-
-  // Get all of the rows from the spreadsheet.
-  doc.getCells(1, function (err, cells) {
-    for(let i = 0; i < cells.length; i++)
-    {
-      console.log(cells[i].value);
-    }
-  });
-
-
-})
+function getSheet(message)
+{
+  doc.useServiceAccountAuth(creds, function (err) {
+    // Get all of the rows from the spreadsheet.
+    doc.getCells(1, function (err, cells) {
+      for(let i = 0; i < cells.length; i++)
+      {
+        console.log(cells[i].value);
+        message = message + " " + cells[i].value;
+      }
+    });
+  })
+}
