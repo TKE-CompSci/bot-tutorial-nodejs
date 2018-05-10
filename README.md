@@ -1,5 +1,9 @@
 # Sample GroupMe NodeJS Callback Bot
-
+#
+#
+# WE NO LONGER USE HEROKU!!! Idk if I should get rid of all this so I will work on putting usefull stuff here in the future
+#
+#
 ## Introduction
 
 This project shows the capability of a bot to react to messages sent within a group.
