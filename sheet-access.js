@@ -16,11 +16,11 @@ var getSheet = function()
     doc.getCells(1, function (err, cells) {
       for(let i = 0; i < cells.length; i++)
       {
-        console.log(cells[i].value);
         message = message + " " + cells[i].value;
       }
     });
   })
+  console.log(message);
   return message;
 }
 
