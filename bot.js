@@ -1,44 +1,62 @@
-var HTTPS = require('https');
-var cool = require('cool-ascii-faces');
+let HTTPS = require('https');
+let cool = require('cool-ascii-faces');
 let fs = require('fs');
 let schedule = require('node-schedule');
 
 //ID of the bot from discord
-var botID = "8691b3fc456f2eb6539908d798";
+let botID = "8691b3fc456f2eb6539908d798";
 
 //sheet id and function
 let spreadsheet_id = "1Gwqf8PPwe2EmO91dk9be6ofoiRprOOf3KBF-bGjMixQ";
 
 
 
-var GoogleSpreadsheet = require('google-spreadsheet');
-var creds = require('./client_secret.json');
+let GoogleSpreadsheet = require('google-spreadsheet');
+let creds = require('./client_secret.json');
+let loggedIn = false;
+let sheetInfo;
+let loadedSheet = false;
 
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
-var doc = new GoogleSpreadsheet(spreadsheet_id);
+let doc = new GoogleSpreadsheet(spreadsheet_id);
+doc.useServiceAccountAuth(creds, function(err) {
+  if(err) {
+    console.log("error in auth: " + err);
+  }
+  else 
+  {
+    loggedIn = true;
+    doc.getInfo(function (err, sheetInfo) {
+      if(err) {
+        console.log("getinfo failed!: " + err);
+        sheetInfo = null;
+      }
+   });
+  }
+});
 
 let sheet = "";
 
 function getSheet(data)
 {
-  doc.useServiceAccountAuth(creds, function (err) {
-    // Get all of the rows from the spreadsheet.
-    doc.getCells(1, function (err, cells) {
-      for(let i = 0; i < cells.length; i++)
-      {
-        //console.log(cells[i].value);
-        data += cells[i].value + " ";
-       // console.log(data);
-      }
-    });
-  })
+  // Get all of the rows from the spreadsheet.
+  doc.getCells(1, function (err, cells) {
+    for(let i = 0; i < cells.length; i++)
+    {
+      //console.log(cells[i].value);
+      data[i] += cells[i].value + " ";
+      // console.log(data);
+    }
+    loadedSheet = true;
+  });
+
 }
 
 //function to aquire the the response of the bot to any post.
 function respond() 
 {
   //A post from the groupme, that is parsed from json to an obj
-  var request = JSON.parse(this.req.chunks[0]),
+  let request = JSON.parse(this.req.chunks[0]),
 
   //the array of regex commands to be checked for.
   botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /^@BOT/i, /^\/load$/, /^\/return$/i);
@@ -75,16 +93,31 @@ function respond()
   {
     console.log("The user has asked bot to gather the data from the sheet.");
     this.res.writeHead(200);
-    postMessage(3, request);
+    if(loggedIn) {
+      getSheet(sheet);
+      postMessage(3, request);
+    }
+    else
+    {
+      console.log("failed to load sheet");
+      postMessage(-1, request);
+    } 
     this.res.end();
-    getSheet(sheet);
   }
   //returning loaded data from google sheet.
   else if(request.text && botRegex[4].test(request.text))
   {
     console.log("The user has asked for the data gathered from the sheet.");
     this.res.writeHead(200);
-    postMessage(4, request);
+    if(loadedSheet) {
+      postMessage(4, request);
+      loadedSheet = false;
+    }
+    else
+    {
+      console.log("sheet hasnt been loaded.");
+      postMessage(-1, request);
+    } 
     this.res.end();
   }
 }
@@ -94,7 +127,7 @@ function respond()
 function postMessage(x, request) 
 {
   // variables for holding information.
-  var botResponse, options, body, botReq;
+  let botResponse, options, body, botReq;
   let attachments;
   //if it was the first regex get that cool face.
   if(x === 0)
@@ -326,23 +359,23 @@ function printTest()
 function getDateTime() 
 {
 
-  var date = new Date();
+  let date = new Date();
 
-  var hour = date.getHours();
+  let hour = date.getHours();
   hour = (hour < 10 ? "0" : "") + hour;
 
-  var min  = date.getMinutes();
+  let min  = date.getMinutes();
   min = (min < 10 ? "0" : "") + min;
 
-  var sec  = date.getSeconds();
+  let sec  = date.getSeconds();
   sec = (sec < 10 ? "0" : "") + sec;
 
-  var year = date.getFullYear();
+  let year = date.getFullYear();
 
-  var month = date.getMonth() + 1;
+  let month = date.getMonth() + 1;
   month = (month < 10 ? "0" : "") + month;
 
-  var day  = date.getDate();
+  let day  = date.getDate();
   day = (day < 10 ? "0" : "") + day;
 
   return hour +  ":" + min + ":" + sec + " on " + month + "/" + day + "/" + year;
