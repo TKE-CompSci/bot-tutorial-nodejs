@@ -82,7 +82,7 @@ function printTime() {
     let botResponse, options, body, botReq, attachments;
 
 
-    console.log("should be sending The Time!");
+    console.log("Sending The Time!");
     botResponse = "As requested, here is the time: " + getDateTime();
     body =
     {
@@ -295,11 +295,11 @@ function postMessage(x, request) {
         "text": botResponse,
     };
 
-    // Debug what is being sent back
-    console.log(body);
-
     // DEBUG what message was sent.
-    console.log("sending " + botResponse + " to " + botID);
+    console.log(`Sending ${botResponse}`);
+
+    // Debug what is being sent back
+    console.log(JSON.stringify(body));
 
     // sent the request at the location set in options.
     botReq =
@@ -394,6 +394,8 @@ function PreMessage(x, request) {
 function respond() {
     // A post from the groupme, that is parsed from json to an obj
     let request = JSON.parse(this.req.chunks[0]);
+
+    console.log(`Received Message: ${JSON.stringify(request)}`);
 
     if(request.bot_id === botID) {
         console.log("bot talking to itself");
