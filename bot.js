@@ -19,7 +19,7 @@ var doc = new GoogleSpreadsheet(spreadsheet_id);
 
 let sheet;
 
-function getSheet()
+function getSheet(data)
 {
   doc.useServiceAccountAuth(creds, function (err) {
     // Get all of the rows from the spreadsheet.
@@ -27,8 +27,8 @@ function getSheet()
       for(let i = 0; i < cells.length; i++)
       {
         console.log(cells[i].value);
-        sheet = cells[i].value;
-        console.log(sheet);
+        data = cells[i].value;
+        console.log(data);
       }
     });
   })
@@ -77,7 +77,7 @@ function respond()
   //loading google sheet into a local variable.
   else if(request.text && botRegex[3].test(request.text))
   {
-    getSheet();
+    getSheet(sheet);
     this.res.writeHead(200);
     postMessage(3, request);
     this.res.end();
@@ -153,7 +153,7 @@ function postMessage(x, request)
     else if(botTagRegex[3].test(request.text))
     {
       botResponse = "I am trying to load the google sheet.";
-      getSheet();
+      getSheet(sheet);
       attachments = null;
     }
     else if(botTagRegex[4].test(request.text))
