@@ -348,7 +348,7 @@ function getSheet(data, request) {
             return;
         }
 
-        for(let i = 3; i < cells.length; i = i + columns) {
+        for(let i = 4; i < cells.length; i = i + columns) {
             temp = {
                 regex: cells[i].value,
                 cmd: cells[i + 1].value,
