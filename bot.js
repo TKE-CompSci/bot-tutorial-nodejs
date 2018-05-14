@@ -395,6 +395,10 @@ function respond() {
     // A post from the groupme, that is parsed from json to an obj
     let request = JSON.parse(this.req.chunks[0]);
 
+    if(request.bot_id !== null) {
+        return;
+    }
+
     // the array of regex commands to be checked for.
     for(let i = 0; i < botRegex.length; i++) {
         if(request.text && botRegex[i].test(request.text)) {
