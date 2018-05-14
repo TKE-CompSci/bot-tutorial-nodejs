@@ -100,7 +100,7 @@ function respond()
     else
     {
       console.log("failed to load sheet");
-      postMessage(-1, request);
+      postMessage(-2, request);
     } 
     this.res.end();
   }
@@ -129,8 +129,19 @@ function postMessage(x, request)
   // variables for holding information.
   let botResponse, options, body, botReq;
   let attachments;
+
+  if(x === -1) {
+    botResponse = "Sheet could not be loaded";
+    attachments = null;
+  }
+  else if(x === -2) {
+    botResponse = "Sheet hasn't been loaded";
+    attachments = null;
+  }
+
+
   //if it was the first regex get that cool face.
-  if(x === 0)
+  else if(x === 0)
   {
     botResponse = "<some cool face>";
     attachments = null;
