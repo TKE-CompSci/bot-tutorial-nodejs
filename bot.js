@@ -198,39 +198,35 @@ function postMessage(x, request) {
             let botTagRegex = new Array(/^@bot who am i/i, /^@bot who are you/i, /^@bot time/i);
             if(botTagRegex[0].test(request.text)) {
                 botResponse = "@" + request.name + ", you are a human";
-                attachments =
-          {
-              loci: [[botResponse.indexOf("@" + request.name), request.name.length + 1]],
-              type: "mentions",
-              user_ids: [request.user_id],
-          };
+                attachments = {
+                    loci: [[botResponse.indexOf("@" + request.name), request.name.length + 1]],
+                    type: "mentions",
+                    user_ids: [request.user_id],
+                };
             }
             else if(botTagRegex[1].test(request.text)) {
                 botResponse = "@" + request.name + ", I am not a bot!";
-                attachments =
-          {
-              loci: [[botResponse.indexOf("@" + request.name), request.name.length + 1]],
-              type: "mentions",
-              user_ids: [request.user_id],
-          };
+                attachments = {
+                    loci: [[botResponse.indexOf("@" + request.name), request.name.length + 1]],
+                    type: "mentions",
+                    user_ids: [request.user_id],
+                };
             }
             else if(botTagRegex[2].test(request.text)) {
                 botResponse = "@" + request.name + " the time is : " + getDateTime();
-                attachments =
-          {
-              loci: [[botResponse.indexOf("@" + request.name), request.name.length + 1]],
-              type: "mentions",
-              user_ids: [request.user_id],
-          };
+                attachments = {
+                    loci: [[botResponse.indexOf("@" + request.name), request.name.length + 1]],
+                    type: "mentions",
+                    user_ids: [request.user_id],
+                };
             }
             else {
                 botResponse = "@" + request.name + " what do you need?";
-                attachments =
-          {
-              loci: [[botResponse.indexOf("@" + request.name, request.name.length + 1)]],
-              type: "mentions",
-              user_ids: [request.user_id],
-          };
+                attachments = {
+                    loci: [[botResponse.indexOf("@" + request.name), request.name.length + 1]],
+                    type: "mentions",
+                    user_ids: [request.user_id],
+                };
             }
             break;
         }
