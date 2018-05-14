@@ -331,7 +331,7 @@ function getSheet(data, request) {
         }
 
         loadedSheet = true;
-        postMessage(-3, request);
+        postMessage(3, request);
     });
 
 }
