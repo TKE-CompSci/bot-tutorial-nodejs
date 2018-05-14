@@ -169,14 +169,14 @@ function printTest() {
 }
 
 /**
- * Handles processing of the message and the setup of the content of the message.
- * @param {number} x - index of regex that matched.
- * @param {*} request - information on user who sent message that regex matched.
+ * Function to handle internal Matching.
+ * @param {number} x - the index of the regex match;
+ * @param {request} request - the data on who sent the message being responded to.
+ * @returns {body} - returns the body object used in the message.
  */
-function postMessage(x, request) {
+function internalMatch(x, request) {
     // variables for holding information.
-    let botResponse, options, body, botReq;
-    let attachments;
+    let botResponse, attachments;
 
     switch(x) {
         case -2: {
@@ -281,6 +281,47 @@ function postMessage(x, request) {
             }
         }
     }
+    return {
+        "attachments": attachments !== null ? [attachments] : [],
+        "bot_id": botID,
+        "text": botResponse,
+    };
+}
+
+/**
+ * Function to handle external Matching.
+ * @param {number} x - the index of the regex match;
+ * @param {request} request - the data on who sent the message being responded to.
+ * @returns {body} - returns the body object used in the message.
+ */
+function externalMatch(x, request) {
+    let message, attachments;
+    if(fileInfo[x] !== null) {
+        message = fileInfo[x].output;
+        attachments = null;
+    }
+    else {
+        message = `Errorzz somehow managed to get external without existance of the cmd for index ${x}`;
+        attachments = null;
+    }
+    return {
+        "attachments": attachments !== null ? [attachments] : [],
+        "bot_id": botID,
+        "text": message,
+    };
+}
+
+/**
+ * Handles processing of the message and the setup of the content of the message.
+ * @param {number} x - index of regex that matched.
+ * @param {boolean} isInternal - bool to toggle Internal vs External.
+ * @param {request} request - information on user who sent message that regex matched.
+ */
+function postMessage(x, isInternal, request) {
+    // variables for holding information.
+    let options, body, botReq;
+
+    body = isInternal ? internalMatch(x, request) : externalMatch(x, request);
 
     // information of where to send it to and type.
     options =
@@ -290,16 +331,8 @@ function postMessage(x, request) {
         method: "POST",
     };
 
-    // set up the body of the message.
-    body =
-    {
-        "attachments": attachments !== null ? [attachments] : [],
-        "bot_id": botID,
-        "text": botResponse,
-    };
-
     // DEBUG what message was sent.
-    console.log(`Sending ${botResponse}`);
+    console.log(`Sending ${body.text}`);
 
     // Debug what is being sent back
     console.log(JSON.stringify(body));
@@ -416,6 +449,16 @@ function respond() {
     // the array of regex commands to be checked for.
     for(let i = 0; i < botRegex.length; i++) {
         if(request.text && botRegex[i].test(request.text)) {
+            console.log(`Received Message: ${JSON.stringify(request)}`);
+            this.res.writeHead(200);
+            PreMessage(i, request);
+            this.res.end();
+            return;
+        }
+    }
+
+    for(let i = 0; i < fileInfo.length; i++) {
+        if(request.text && fileInfo[i].regex.test(request.text)) {
             console.log(`Received Message: ${JSON.stringify(request)}`);
             this.res.writeHead(200);
             PreMessage(i, request);
