@@ -254,7 +254,7 @@ function postMessage(x, request) {
         }
         case 4: {
             console.log(JSON.stringify(fileInfo));
-            botResponse = "File Commands:";
+            botResponse = "File Commands:\ncmd: description";
             for(let i = 0; i < fileInfo.length; i++) {
                 botResponse += `\n${fileInfo[i].cmd}: ${fileInfo[i].description}`;
             }
@@ -348,7 +348,7 @@ function getSheet(data, request) {
             return;
         }
 
-        for(let i = 0; i < cells.length; i = i + columns) {
+        for(let i = 3; i < cells.length; i = i + columns) {
             temp = {
                 regex: cells[i].value,
                 cmd: cells[i + 1].value,
