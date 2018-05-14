@@ -397,7 +397,7 @@ function respond() {
 
     console.log(`Received Message: ${JSON.stringify(request)}`);
 
-    if(request.bot_id === botID) {
+    if(request.name === "NOT_A_BOT") {
         console.log("bot talking to itself");
         return;
     }
