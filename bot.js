@@ -17,7 +17,7 @@ var creds = require('./client_secret.json');
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
 var doc = new GoogleSpreadsheet(spreadsheet_id);
 
-let sheet;
+let sheet = "";
 
 function getSheet(data)
 {
@@ -34,10 +34,6 @@ function getSheet(data)
   })
 }
 
-function showSheet()
-{
-  return sheet;
-}
 //function to aquire the the response of the bot to any post.
 function respond() 
 {
@@ -77,6 +73,7 @@ function respond()
   //loading google sheet into a local variable.
   else if(request.text && botRegex[3].test(request.text))
   {
+    getSheet(sheet);
     this.res.writeHead(200);
     postMessage(3, request);
     this.res.end();
@@ -85,7 +82,7 @@ function respond()
   else if(request.text && botRegex[4].test(request.text))
   {
     this.res.writeHead(200);
-    postMessage(2, request);
+    postMessage(4, request);
     this.res.end();
   }
 }
@@ -152,12 +149,11 @@ function postMessage(x, request)
     else if(botTagRegex[3].test(request.text))
     {
       botResponse = "I am trying to load the google sheet.";
-      getSheet(sheet);
       attachments = null;
     }
     else if(botTagRegex[4].test(request.text))
     {
-      botResponse = "The sheet info should show here: " + showSheet();
+      botResponse = "The sheet info should show here: " + sheet;
       attachments = null;
     }
     else
