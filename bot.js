@@ -253,8 +253,11 @@ function postMessage(x, request) {
             break;
         }
         case 4: {
-            console.log("Here we need to show info.");
-            botResponse = "The sheet info should show here";
+            console.log(JSON.stringify(fileInfo));
+            botResponse = "File Commands:";
+            for(let i = 0; i < fileInfo.length; i++) {
+                botResponse += `\n${fileInfo[i].cmd}: ${fileInfo[i].description}`;
+            }
             attachments = null;
             break;
         }
@@ -331,20 +334,24 @@ function postMessage(x, request) {
  * @param {*} request - data from the https request.
  */
 function getSheet(data, request) {
+    const columns = 4;
     loadedSheet = false;
     postMessage(3, request);
     // Get all of the rows from the spreadsheet.
-    doc.getCells(1, function(err, cells) {
+    doc.getCells(1, { "max-col": columns }, function(err, cells) {
         if(err) {
             console.log("failed to get cells");
             return;
         }
 
-        for(let i = 0; i < cells.length; i++) {
-            // console.log(cells[i].value);
-            data[i] += cells[i].value + " ";
-            // console.log(data);
+        for(let i = 0; i < cells.length; i = i + columns) {
+            fileInfo[i / columns].regex = cells[i].value;
+            fileInfo[i / columns].cmd = cells[i + 1].value;
+            fileInfo[i / columns].output = cells[i + 2].value;
+            fileInfo[i / columns].description = cells[i + 3].value;
         }
+
+        console.log(JSON.stringify(fileInfo));
 
         loadedSheet = true;
         postMessage(3, request);
