@@ -395,7 +395,8 @@ function respond() {
     // A post from the groupme, that is parsed from json to an obj
     let request = JSON.parse(this.req.chunks[0]);
 
-    if(request.bot_id !== null) {
+    if(request.bot_id === botID) {
+        console.log("bot talking to itself");
         return;
     }
 
