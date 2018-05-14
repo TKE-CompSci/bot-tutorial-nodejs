@@ -6,6 +6,9 @@ let schedule = require("node-schedule");
 // ID of the bot from discord
 let botID = "8691b3fc456f2eb6539908d798";
 
+let botRegex;
+let fileInfo;
+
 // sheet id and function
 let spreadsheetID = "1Gwqf8PPwe2EmO91dk9be6ofoiRprOOf3KBF-bGjMixQ";
 
@@ -15,7 +18,6 @@ let sheetInfo;
 let sheet = "";
 let loggedIn = false;
 let loadedSheet = false;
-let botRegex;
 
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
 let doc = new GoogleSpreadsheet(spreadsheetID);
@@ -254,7 +256,8 @@ function postMessage(x, request) {
                 break;
             }
             else {
-                // Sheet stuff here.
+                botResponse = `${botRegex[x]} is not handled yet!`;
+                attachments = null;
             }
         }
     }
@@ -376,7 +379,7 @@ function respond() {
     let request = JSON.parse(this.req.chunks[0]);
 
     // the array of regex commands to be checked for.
-    botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /@BOT/i, /^\/load$/, /^\/return$/i);
+    botRegex = new Array(/^\/cool guy$/i, /^\/talk$/i, /@BOT/i, /^\/load$/i, /^\/return$/i, /^\/help$/i);
 
     for(let i = 0; i < botRegex.length; i++) {
         if(request.text && botRegex[i].test(request.text)) {
