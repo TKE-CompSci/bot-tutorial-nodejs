@@ -395,16 +395,14 @@ function respond() {
     // A post from the groupme, that is parsed from json to an obj
     let request = JSON.parse(this.req.chunks[0]);
 
-    console.log(`Received Message: ${JSON.stringify(request)}`);
-
     if(request.name === "NOT_A_BOT") {
-        console.log("bot talking to itself");
         return;
     }
 
     // the array of regex commands to be checked for.
     for(let i = 0; i < botRegex.length; i++) {
         if(request.text && botRegex[i].test(request.text)) {
+            console.log(`Received Message: ${JSON.stringify(request)}`);
             this.res.writeHead(200);
             PreMessage(i, request);
             this.res.end();
