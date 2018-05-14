@@ -258,6 +258,11 @@ function postMessage(x, request) {
             attachments = null;
             break;
         }
+        case 5: {
+            botResponse = "does this handle \n newlines well?";
+            attachments = null;
+            break;
+        }
         default: {
             if(x < 0) {
                 botResponse = "Unhandled Error!";
