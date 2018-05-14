@@ -25,6 +25,7 @@ doc.useServiceAccountAuth(creds, function(err) {
   }
   else 
   {
+    console.log("logged In");
     loggedIn = true;
     doc.getInfo(function (err, sheetInfo) {
       if(err) {
