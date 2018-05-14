@@ -38,8 +38,9 @@ doc.useServiceAccountAuth(creds, function(err) {
 
 let sheet = "";
 
-function getSheet(data)
+function getSheet(data, request)
 {
+  postMessage(3, request);
   // Get all of the rows from the spreadsheet.
   doc.getCells(1, function (err, cells) {
     for(let i = 0; i < cells.length; i++)
@@ -49,6 +50,7 @@ function getSheet(data)
       // console.log(data);
     }
     loadedSheet = true;
+    postMessage(-3, request);
   });
 
 }
@@ -95,8 +97,8 @@ function respond()
     console.log("The user has asked bot to gather the data from the sheet.");
     this.res.writeHead(200);
     if(loggedIn) {
-      getSheet(sheet);
-      postMessage(3, request);
+      getSheet(sheet, request);
+      
     }
     else
     {
@@ -137,6 +139,10 @@ function postMessage(x, request)
   }
   else if(x === -2) {
     botResponse = "Sheet hasn't been loaded";
+    attachments = null;
+  }
+  else if(x === -3) {
+    botResponse = "Sheet loaded!";
     attachments = null;
   }
 
