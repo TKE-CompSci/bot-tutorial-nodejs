@@ -336,6 +336,7 @@ function postMessage(x, request) {
 function getSheet(data, request) {
     const columns = 4;
     loadedSheet = false;
+    fileInfo = new Array();
     postMessage(3, request);
     // Get all of the rows from the spreadsheet.
     doc.getCells(1, { "max-col": columns }, function(err, cells) {
