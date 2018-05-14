@@ -334,22 +334,28 @@ function postMessage(x, request) {
  * @param {*} request - data from the https request.
  */
 function getSheet(data, request) {
+    let temp;
     const columns = 4;
     loadedSheet = false;
     fileInfo = new Array();
+
     postMessage(3, request);
     // Get all of the rows from the spreadsheet.
     doc.getCells(1, { "max-col": columns }, function(err, cells) {
         if(err) {
             console.log("failed to get cells");
+            postMessage(-1, request);
             return;
         }
 
         for(let i = 0; i < cells.length; i = i + columns) {
-            fileInfo[i / columns].regex = cells[i].value;
-            fileInfo[i / columns].cmd = cells[i + 1].value;
-            fileInfo[i / columns].output = cells[i + 2].value;
-            fileInfo[i / columns].description = cells[i + 3].value;
+            temp = {
+                regex: cells[i].value,
+                cmd: cells[i + 1].value,
+                output: cells[i + 2].value,
+                description: cells[i + 3].value,
+            };
+            fileInfo.push(temp);
         }
 
         console.log(JSON.stringify(fileInfo));
