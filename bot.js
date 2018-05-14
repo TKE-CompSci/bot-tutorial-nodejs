@@ -73,10 +73,10 @@ function respond()
   //loading google sheet into a local variable.
   else if(request.text && botRegex[3].test(request.text))
   {
-    getSheet(sheet);
     this.res.writeHead(200);
     postMessage(3, request);
     this.res.end();
+    getSheet(sheet);
   }
   //returning loaded data from google sheet.
   else if(request.text && botRegex[4].test(request.text))
@@ -153,7 +153,8 @@ function postMessage(x, request)
     }
     else if(botTagRegex[4].test(request.text))
     {
-      botResponse = "The sheet info should show here: " + sheet;
+      console.log("Here we need to show info.");
+      botResponse = "The sheet info should show here";
       attachments = null;
     }
     else
