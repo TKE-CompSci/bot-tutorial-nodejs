@@ -15,6 +15,7 @@ let sheetInfo;
 let sheet = "";
 let loggedIn = false;
 let loadedSheet = false;
+let botRegex;
 
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
 let doc = new GoogleSpreadsheet(spreadsheetID);
@@ -376,13 +377,13 @@ function PreMessage(x, request) {
  */
 function respond() {
     // A post from the groupme, that is parsed from json to an obj
-    let request = JSON.parse(this.req.chunks[0]),
+    let request = JSON.parse(this.req.chunks[0]);
 
-        // the array of regex commands to be checked for.
-        botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /@BOT/i, /^\/load$/, /^\/return$/i);
+    // the array of regex commands to be checked for.
+    botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /@BOT/i, /^\/load$/, /^\/return$/i);
 
     for(let i = 0; i < botRegex.length; i++) {
-        if(request.text && botRegex[0].test(request.text)) {
+        if(request.text && botRegex[i].test(request.text)) {
             this.res.writeHead(200);
             PreMessage(i, request);
             this.res.end();
