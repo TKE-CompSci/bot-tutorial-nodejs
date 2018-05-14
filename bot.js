@@ -383,7 +383,7 @@ function getSheet(data, request) {
 
         for(let i = 4; i < cells.length; i = i + columns) {
             temp = {
-                regex: cells[i].value,
+                regex: new RegExp(cells[i].value),
                 cmd: cells[i + 1].value,
                 output: cells[i + 2].value,
                 description: cells[i + 3].value,
