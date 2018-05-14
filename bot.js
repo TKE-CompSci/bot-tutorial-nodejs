@@ -2,11 +2,42 @@ var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
 let fs = require('fs');
 let schedule = require('node-schedule');
-let getData = require('./sheet-access');
 
 //ID of the bot from discord
 var botID = "8691b3fc456f2eb6539908d798";
 
+//sheet id and function
+let spreadsheet_id = "1Gwqf8PPwe2EmO91dk9be6ofoiRprOOf3KBF-bGjMixQ";
+
+
+
+var GoogleSpreadsheet = require('google-spreadsheet');
+var creds = require('./client_secret.json');
+
+// Create a document object using the ID of the spreadsheet - obtained from its URL.
+var doc = new GoogleSpreadsheet(spreadsheet_id);
+
+let sheet;
+
+function getSheet()
+{
+  doc.useServiceAccountAuth(creds, function (err) {
+    // Get all of the rows from the spreadsheet.
+    doc.getCells(1, function (err, cells) {
+      for(let i = 0; i < cells.length; i++)
+      {
+        console.log(cells[i].value);
+        sheet = cells[i].value;
+        console.log(sheet);
+      }
+    });
+  })
+}
+
+function showSheet()
+{
+  return sheet;
+}
 //function to aquire the the response of the bot to any post.
 function respond() 
 {
@@ -14,7 +45,7 @@ function respond()
   var request = JSON.parse(this.req.chunks[0]),
 
   //the array of regex commands to be checked for.
-  botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /^@BOT/i);
+  botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /^@BOT/, /^\/load$/, /^\/return$/i);
   
   //check for a message then check to see if it matches the first regex
   if(request.text && botRegex[0].test(request.text)) 
@@ -43,6 +74,20 @@ function respond()
     postMessage(2, request);
     this.res.end();
   }
+  //loading google sheet into a local variable.
+  else if(request.text && botRegex[3].test(request.text))
+  {
+    this.res.writeHead(200);
+    postMessage(3, request);
+    this.res.end();
+  }
+  //returning loaded data from google sheet.
+  else if(request.text && botRegex[4].test(request.text))
+  {
+    this.res.writeHead(200);
+    postMessage(2, request);
+    this.res.end();
+  }
 }
 
 
@@ -55,7 +100,7 @@ function postMessage(x, request)
   //if it was the first regex get that cool face.
   if(x === 0)
   {
-    botResponse = getData();
+    botResponse = "<some cool face>";
     attachments = null;
   }
   //then must be the second regex response.
@@ -103,6 +148,17 @@ function postMessage(x, request)
         type: "mentions",
         user_ids: [request.user_id]
       };
+    }
+    else if(botTagRegex[3].test(request.text))
+    {
+      botResponse = "I am trying to load the google sheet.";
+      getSheet();
+      attachments = null;
+    }
+    else if(botTagRegex[4].test(request.text))
+    {
+      botResponse = "The sheet info should show here: " + showSheet();
+      attachments = null;
     }
     else
     {
