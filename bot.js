@@ -372,12 +372,12 @@ function getSheet(data, request) {
     loadedSheet = false;
     fileInfo = new Array();
 
-    postMessage(3, request);
+    postMessage(3, true, request);
     // Get all of the rows from the spreadsheet.
     doc.getCells(1, { "max-col": columns }, function(err, cells) {
         if(err) {
             console.log("failed to get cells");
-            postMessage(-1, request);
+            postMessage(-1, true, request);
             return;
         }
 
@@ -394,7 +394,7 @@ function getSheet(data, request) {
         console.log(JSON.stringify(fileInfo));
 
         loadedSheet = true;
-        postMessage(3, request);
+        postMessage(3, true, request);
     });
 
 }
@@ -413,24 +413,24 @@ function PreMessage(x, request) {
             }
             else {
                 console.log("failed to load sheet");
-                postMessage(-1, request);
+                postMessage(-1, true, request);
             }
             break;
         }
         case 4: {
             console.log("The user has asked for the data gathered from the sheet.");
             if(loadedSheet) {
-                postMessage(x, request);
+                postMessage(x, true, request);
                 loadedSheet = false;
             }
             else {
                 console.log("sheet hasn't been loaded.");
-                postMessage(-2, request);
+                postMessage(-2, true, request);
             }
             break;
         }
         default: {
-            postMessage(x, request);
+            postMessage(x, true, request);
         }
     }
 }
@@ -458,11 +458,16 @@ function respond() {
     }
 
     for(let i = 0; i < fileInfo.length; i++) {
-        if(request.text && fileInfo[i].regex.test(request.text)) {
-            console.log(`Received Message: ${JSON.stringify(request)}`);
-            this.res.writeHead(200);
-            PreMessage(i, request);
-            this.res.end();
+        if(request.text) {
+            if(fileInfo[i].regex.test(request.text)) {
+                console.log(`Received Message: ${JSON.stringify(request)}`);
+                this.res.writeHead(200);
+                postMessage(i, false, request);
+                this.res.end();
+            }
+        }
+        else {
+            return;
         }
     }
 }
