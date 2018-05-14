@@ -117,7 +117,7 @@ function respond()
     else
     {
       console.log("sheet hasnt been loaded.");
-      postMessage(-1, request);
+      postMessage(-2, request);
     } 
     this.res.end();
   }
