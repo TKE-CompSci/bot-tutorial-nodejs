@@ -27,7 +27,7 @@ function getSheet(data)
       for(let i = 0; i < cells.length; i++)
       {
         console.log(cells[i].value);
-        data = cells[i].value;
+        data += cells[i].value + " ";
         console.log(data);
       }
     });
@@ -73,6 +73,7 @@ function respond()
   //loading google sheet into a local variable.
   else if(request.text && botRegex[3].test(request.text))
   {
+    console.log("The user has asked bot to gather the data from the sheet.");
     this.res.writeHead(200);
     postMessage(3, request);
     this.res.end();
@@ -81,6 +82,7 @@ function respond()
   //returning loaded data from google sheet.
   else if(request.text && botRegex[4].test(request.text))
   {
+    console.log("The user has asked for the data gathered from the sheet.");
     this.res.writeHead(200);
     postMessage(4, request);
     this.res.end();
