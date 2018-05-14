@@ -26,9 +26,9 @@ function getSheet(data)
     doc.getCells(1, function (err, cells) {
       for(let i = 0; i < cells.length; i++)
       {
-        console.log(cells[i].value);
+        //console.log(cells[i].value);
         data += cells[i].value + " ";
-        console.log(data);
+       // console.log(data);
       }
     });
   })
@@ -41,7 +41,7 @@ function respond()
   var request = JSON.parse(this.req.chunks[0]),
 
   //the array of regex commands to be checked for.
-  botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /^@BOT/, /^\/load$/, /^\/return$/i);
+  botRegex = new Array(/^\/cool guy$/, /^\/talk$/, /^@BOT/i, /^\/load$/, /^\/return$/i);
   
   //check for a message then check to see if it matches the first regex
   if(request.text && botRegex[0].test(request.text)) 
@@ -204,6 +204,7 @@ function postMessage(x, request)
       {
         //was rejected with the following code.
         console.log('rejecting bad status code ' + res.statusCode);
+        console.log('rejected message: '+JSON.stringify(body));
       }
     });
   
