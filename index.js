@@ -7,7 +7,7 @@ cool = require("cool-ascii-faces");
 bot = require("./bot.js");
 
 // Log attempting to start the Bot.
-console.log("Starting up!");
+console.log("Starting up");
 /**
  * this is for get of http should only be on website access.
  */
@@ -48,7 +48,7 @@ server = http.createServer(function(req, res) {
 
 // making sure the server actually started.
 if(server !== null) {
-    console.log("We starting up that server!");
+    console.log("Server Started");
 }
 
 // setting the port for listening
@@ -56,5 +56,3 @@ port = Number(80);
 // start listening on that port.
 server.listen(port);
 
-// log the address information of server.
-console.log(server.address());
