@@ -259,7 +259,10 @@ function postMessage(x, request) {
             break;
         }
         case 5: {
-            botResponse = "does this handle \n newlines well?";
+            botResponse = "Help Menu:\ncmd: description";
+            for(let i = 0; i < botRegex.length; i++) {
+                botResponse += `\n${botCmds[i]}: ${botDescriptions[i]}`;
+            }
             attachments = null;
             break;
         }
@@ -270,7 +273,7 @@ function postMessage(x, request) {
                 break;
             }
             else {
-                botResponse = `${botCmds[x]} is not handled yet!`;
+                botResponse = `${botCmds[x] !== null ? botCmds[x] : botRegex[x]} is not handled yet!`;
                 attachments = null;
             }
         }
