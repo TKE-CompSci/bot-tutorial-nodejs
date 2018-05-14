@@ -77,7 +77,6 @@ function respond()
   //loading google sheet into a local variable.
   else if(request.text && botRegex[3].test(request.text))
   {
-    getSheet(sheet);
     this.res.writeHead(200);
     postMessage(3, request);
     this.res.end();
