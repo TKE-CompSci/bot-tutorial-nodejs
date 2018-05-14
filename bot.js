@@ -6,7 +6,16 @@ let schedule = require("node-schedule");
 // ID of the bot from discord
 let botID = "8691b3fc456f2eb6539908d798";
 
-let botRegex;
+let botRegex = new Array(/^\/cool guy$/i, /^\/talk$/i, /@BOT/i, /^\/load$/i, /^\/return$/i, /^\/help$/i);
+let botCmds = new Array("/cool guy", "/talk", "@bot", "/load", "/return", "/help");
+let botDescriptions = new Array(
+    "Diplays a Face!",
+    "talks to caller",
+    "tag cmds",
+    "load cmds from google sheet",
+    "return the list of cmds from google sheet",
+    "help info"
+);
 let fileInfo;
 
 // sheet id and function
@@ -256,7 +265,7 @@ function postMessage(x, request) {
                 break;
             }
             else {
-                botResponse = `${botRegex[x]} is not handled yet!`;
+                botResponse = `${botCmds[x]} is not handled yet!`;
                 attachments = null;
             }
         }
@@ -379,8 +388,6 @@ function respond() {
     let request = JSON.parse(this.req.chunks[0]);
 
     // the array of regex commands to be checked for.
-    botRegex = new Array(/^\/cool guy$/i, /^\/talk$/i, /@BOT/i, /^\/load$/i, /^\/return$/i, /^\/help$/i);
-
     for(let i = 0; i < botRegex.length; i++) {
         if(request.text && botRegex[i].test(request.text)) {
             this.res.writeHead(200);
