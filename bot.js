@@ -148,17 +148,6 @@ function postMessage(x, request)
         user_ids: [request.user_id]
       };
     }
-    else if(botTagRegex[3].test(request.text))
-    {
-      botResponse = "I am trying to load the google sheet.";
-      attachments = null;
-    }
-    else if(botTagRegex[4].test(request.text))
-    {
-      console.log("Here we need to show info.");
-      botResponse = "The sheet info should show here";
-      attachments = null;
-    }
     else
     {
       botResponse = "@" + request.name + " what do you need?";
@@ -169,6 +158,17 @@ function postMessage(x, request)
         user_ids: [request.user_id]
       }
     }
+  }
+  else if(x == 3)
+  {
+    botResponse = "I am trying to load the google sheet.";
+    attachments = null;
+  }
+  else if(x == 4)
+  {
+    console.log("Here we need to show info.");
+    botResponse = "The sheet info should show here";
+    attachments = null;
   }
 
 
