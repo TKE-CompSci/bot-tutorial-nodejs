@@ -176,9 +176,14 @@ function printTest() {
  */
 function internalMatch(x, request) {
     // variables for holding information.
-    let botResponse, attachments;
+    let botResponse = "error", attachments = null;
 
     switch(x) {
+        case -3: {
+            botResponse = "Sheet is invalid!";
+            attachments = null;
+            break;
+        }
         case -2: {
             botResponse = "Sheet hasn't been loaded";
             attachments = null;
@@ -295,7 +300,7 @@ function internalMatch(x, request) {
  * @returns {body} - returns the body object used in the message.
  */
 function externalMatch(x, request) {
-    let message, attachments;
+    let message = "error", attachments = null;
     if(fileInfo[x] !== null) {
         message = fileInfo[x].output;
         attachments = null;
@@ -391,11 +396,16 @@ function getSheet(data, request) {
 
         if(cells.length % 4 !== 0) {
             console.log("ERROR invalid number of cells in document!");
-            postMessage(-1, true, request);
+            postMessage(-3, true, request);
             return;
         }
 
         for(let i = 4; i < cells.length; i = i + columns) {
+            if(!cells[i] || !cells[i + 1] || !cells[i + 2] || !cells[i + 3]) {
+                console.log("Error invalid number of cells!");
+                postMessage(-3, true, request);
+                return;
+            }
             temp = {
                 regex: new RegExp(cells[i].value),
                 cmd: cells[i + 1].value,
