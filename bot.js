@@ -194,11 +194,13 @@ function internalMatch(x, request) {
             attachments = null;
             break;
         }
+        //Handles /cool guy command (this is used to test basic messages)
         case 0: {
             botResponse = "<some cool face>";
             attachments = null;
             break;
         }
+        //Handles /talk command (this is used to test getting the senders user_id and replying with it as an attachment)
         case 1: {
             botResponse = "@" + request.name + " Talk dirty to Me! ";
             // the structure for mentioning people.
@@ -210,6 +212,7 @@ function internalMatch(x, request) {
             };
             break;
         }
+        //Case that handles @bot <other stuff> commands (used in part to show the expansions we could make and better organization of commands using extra params)
         case 2: {
             let botTagRegex = new Array(/^@bot who am i/i, /^@bot who are you/i, /^@bot time/i);
             if(botTagRegex[0].test(request.text)) {
