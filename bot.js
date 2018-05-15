@@ -377,7 +377,7 @@ function message(x, isInternal, request) {
  * @param {request} request - information on user who sent message that regex matched.
  */
 function postMessage(x, isInternal, request) {
-    setTimeout(message, 200, x, isInternal, request);
+    setTimeout(message, 300, x, isInternal, request);
 }
 
 /**
