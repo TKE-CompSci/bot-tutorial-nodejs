@@ -382,6 +382,7 @@ function getSheet(data, request) {
         }
 
         for(let i = 0; i < cells.length; i++) {
+            cells[i].id = "";
             console.log(JSON.stringify(cells[i]));
         }
 
