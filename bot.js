@@ -405,11 +405,6 @@ function getSheet(data, request) {
 
         loadedSheet = true;
         postMessage(3, true, request);
-        console.log("\n\n\n\n");
-        fileInfo.forEach(item => {
-            console.log(item.regex);
-        });
-        console.log("\n\n\n\n");
     });
 
 }
