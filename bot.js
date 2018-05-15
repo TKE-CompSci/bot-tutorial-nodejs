@@ -329,6 +329,7 @@ function postMessage(x, isInternal, request) {
     // variables for holding information.
     let options, body, botReq;
 
+    //Decision to gather a message from the internal or external RegEx decisions.
     body = isInternal ? internalMatch(x, request) : externalMatch(x, request);
 
     // information of where to send it to and type.
@@ -396,7 +397,7 @@ function getSheet(data, request) {
             delete cells[i]._links;
             console.log(JSON.stringify(cells[i]));
         }
-
+        
         if(cells.length % 4 !== 0) {
             console.log("ERROR invalid number of cells in document!");
             postMessage(-3, true, request);
@@ -433,6 +434,7 @@ function getSheet(data, request) {
  */
 function PreMessage(x, request) {
     switch(x) {
+        //handles the command /load that tells code to load the data from the google sheet
         case 3: {
             console.log("The user has asked bot to gather the data from the sheet.");
             if(loggedIn) {
@@ -444,6 +446,7 @@ function PreMessage(x, request) {
             }
             break;
         }
+        //handles the command /return that shows what data was gathered from the google sheet.
         case 4: {
             console.log("The user has asked for the data gathered from the sheet.");
             if(loadedSheet) {
@@ -456,6 +459,7 @@ function PreMessage(x, request) {
             }
             break;
         }
+        //if not a special case that needs to be handled runs basic post message.
         default: {
             postMessage(x, true, request);
         }
@@ -469,6 +473,7 @@ function respond() {
     // A post from the groupme, that is parsed from json to an obj
     let request = JSON.parse(this.req.chunks[0]);
 
+    //stops those infinite repeat shits ty Grand Wizard Cash
     if(request.name === "NOT_A_BOT") {
         return;
     }
@@ -484,6 +489,7 @@ function respond() {
         }
     }
 
+    //tests each regex?
     for(let i = 0; i < fileInfo.length; i++) {
         if(request.text) {
             if(fileInfo[i].regex.test(request.text)) {
@@ -509,4 +515,5 @@ rule2.minute = 30;
 
 
 // No Idea what this is for.
+// I believe it has to do witch when let someVar = require('bot.js') is called on this someVar will return the respond function ~Dylan
 exports.respond = respond;
