@@ -381,6 +381,16 @@ function getSheet(data, request) {
             return;
         }
 
+        for(let i = 0; i < cells.length; i++) {
+            console.log(JSON.stringify(cells[i]));
+        }
+
+        if(cells.length % 4 !== 0) {
+            console.log("ERROR invalid number of cells in document!");
+            postMessage(-1, true, request);
+            return;
+        }
+
         for(let i = 4; i < cells.length; i = i + columns) {
             temp = {
                 regex: new RegExp(cells[i].value),
