@@ -390,8 +390,6 @@ function getSheet(data, request) {
     const columns = 4;
     loadedSheet = false;
     fileInfo = new Array();
-
-    postMessage(3, true, request);
     // Get all of the rows from the spreadsheet.
     doc.getCells(1, { "max-col": columns }, function(err, cells) {
         if(err) {
@@ -431,8 +429,8 @@ function getSheet(data, request) {
 
         console.log(JSON.stringify(fileInfo));
 
-        loadedSheet = true;
         postMessage(3, true, request);
+        loadedSheet = true;
     });
 
 }
