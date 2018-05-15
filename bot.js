@@ -382,7 +382,11 @@ function getSheet(data, request) {
         }
 
         for(let i = 0; i < cells.length; i++) {
-            cells[i].id = "";
+            delete cells[i].id;
+            delete cells[i].valueForSave;
+            delete cells[i].batchId;
+            delete cells[i]._links;
+            delete cells[i]._value;
             console.log(JSON.stringify(cells[i]));
         }
 
