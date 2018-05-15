@@ -194,13 +194,13 @@ function internalMatch(x, request) {
             attachments = null;
             break;
         }
-        //Handles /cool guy command (this is used to test basic messages)
+        // Handles /cool guy command (this is used to test basic messages)
         case 0: {
             botResponse = "<some cool face>";
             attachments = null;
             break;
         }
-        //Handles /talk command (this is used to test getting the senders user_id and replying with it as an attachment)
+        // Handles /talk command (this is used to test getting the senders user_id and replying with it as an attachment)
         case 1: {
             botResponse = "@" + request.name + " Talk dirty to Me! ";
             // the structure for mentioning people.
@@ -212,7 +212,7 @@ function internalMatch(x, request) {
             };
             break;
         }
-        //Case that handles @bot <other stuff> commands (used in part to show the expansions we could make and better organization of commands using extra params)
+        // Case that handles @bot <other stuff> commands (used in part to show the expansions we could make and better organization of commands using extra params)
         case 2: {
             let botTagRegex = new Array(/^@bot who am i/i, /^@bot who are you/i, /^@bot time/i);
             if(botTagRegex[0].test(request.text)) {
@@ -325,11 +325,11 @@ function externalMatch(x, request) {
  * @param {boolean} isInternal - bool to toggle Internal vs External.
  * @param {request} request - information on user who sent message that regex matched.
  */
-function postMessage(x, isInternal, request) {
+function message(x, isInternal, request) {
     // variables for holding information.
     let options, body, botReq;
 
-    //Decision to gather a message from the internal or external RegEx decisions.
+    // Decision to gather a message from the internal or external RegEx decisions.
     body = isInternal ? internalMatch(x, request) : externalMatch(x, request);
 
     // information of where to send it to and type.
@@ -371,6 +371,16 @@ function postMessage(x, isInternal, request) {
 }
 
 /**
+ * Handles processing of the message and the setup of the content of the message.
+ * @param {number} x - index of regex that matched.
+ * @param {boolean} isInternal - bool to toggle Internal vs External.
+ * @param {request} request - information on user who sent message that regex matched.
+ */
+function postMessage(x, isInternal, request) {
+    setTimeout(message, 500, x, isInternal, request);
+}
+
+/**
  * gets info from a sheet.
  * @param {*} data - data from Spreadsheet.
  * @param {*} request - data from the https request.
@@ -397,7 +407,7 @@ function getSheet(data, request) {
             delete cells[i]._links;
             console.log(JSON.stringify(cells[i]));
         }
-        
+
         if(cells.length % 4 !== 0) {
             console.log("ERROR invalid number of cells in document!");
             postMessage(-3, true, request);
@@ -434,7 +444,7 @@ function getSheet(data, request) {
  */
 function PreMessage(x, request) {
     switch(x) {
-        //handles the command /load that tells code to load the data from the google sheet
+        // handles the command /load that tells code to load the data from the google sheet
         case 3: {
             console.log("The user has asked bot to gather the data from the sheet.");
             if(loggedIn) {
@@ -446,7 +456,7 @@ function PreMessage(x, request) {
             }
             break;
         }
-        //handles the command /return that shows what data was gathered from the google sheet.
+        // handles the command /return that shows what data was gathered from the google sheet.
         case 4: {
             console.log("The user has asked for the data gathered from the sheet.");
             if(loadedSheet) {
@@ -459,7 +469,7 @@ function PreMessage(x, request) {
             }
             break;
         }
-        //if not a special case that needs to be handled runs basic post message.
+        // if not a special case that needs to be handled runs basic post message.
         default: {
             postMessage(x, true, request);
         }
@@ -473,7 +483,7 @@ function respond() {
     // A post from the groupme, that is parsed from json to an obj
     let request = JSON.parse(this.req.chunks[0]);
 
-    //stops those infinite repeat shits ty Grand Wizard Cash
+    // stops those infinite repeat shits ty Grand Wizard Cash
     if(request.name === "NOT_A_BOT") {
         return;
     }
@@ -489,7 +499,7 @@ function respond() {
         }
     }
 
-    //tests each regex?
+    // tests each regex?
     for(let i = 0; i < fileInfo.length; i++) {
         if(request.text) {
             if(fileInfo[i].regex.test(request.text)) {
