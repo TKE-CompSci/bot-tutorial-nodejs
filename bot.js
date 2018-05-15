@@ -386,7 +386,6 @@ function getSheet(data, request) {
             delete cells[i].valueForSave;
             delete cells[i].batchId;
             delete cells[i]._links;
-            delete cells[i]._value;
             console.log(JSON.stringify(cells[i]));
         }
 
